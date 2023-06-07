@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+public class Exerciceimplicitemeilleur2 {
+    /**
+     * Trie les mots d'une chaîne de caractères selon un ordre spécifié.
+     *
+     * @param pfPhrase   La chaîne de caractères à trier.
+     * @param pfOrdre La liste des caractères spécifiant l'ordre de tri.
+     * @return Une liste de mots de la phrase triée selon l'ordre spécifié.
+     */
+    public static List<String> solution(String pfPhrase, List<Character> pfOrdre) {
+    	
+    	// On créer une ArrayList contenant chaque mots de manière séparée de la phrase avec la méthode split et un espace comme séparateur
+        List<String> motsTries = new ArrayList<>(Arrays.asList(pfPhrase.split(" ")));
+
+        // On utilise la méthode de trie (sort) avec le comparateur qu'on créer selon l'ordre (pfOrdre)
+        motsTries.sort(Comparator.comparingInt(s -> {
+            int minLength = Math.min(s.length(), pfOrdre.size());
+            for (int i = 0; i < minLength; i++) {
+                int index = pfOrdre.indexOf(s.charAt(i));
+                if (index != -1) {
+                    return index;
+                }
+            }
+            return s.length();
+        }));
+        return motsTries;
+    }
+}

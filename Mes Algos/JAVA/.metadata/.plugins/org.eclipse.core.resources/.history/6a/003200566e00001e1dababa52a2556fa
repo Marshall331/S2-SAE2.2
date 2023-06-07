@@ -1,0 +1,63 @@
+import java.util.List;
+import java.util.ArrayList;
+
+public class EfficacitePire {
+    /**
+     * Trie les mots d'une phrase selon un ordre spécifié.
+     *
+     * @param pfPhrase La chaîne de caractères contenant les mots à trier.
+     * @param pfOrdre  La liste des caractères spécifiant l'ordre de tri.
+     * @return Une liste contenant les mots triés selon l'ordre spécifié.
+     */
+    public static List<String> trierMots(String pfPhrase, List<Character> pfOrdre) {
+        List<String> mots = diviserMots(pfPhrase);
+
+        // Tri des mots selon l'ordre spécifié
+        for (int i = 0; i < mots.size(); i++) {
+            for (int j = 0; j < mots.size() - 1; j++) {
+                String mot1 = mots.get(j);
+                String mot2 = mots.get(j + 1);
+                char char1 = mot1.charAt(0);
+                char char2 = mot2.charAt(0);
+
+                int index1 = pfOrdre.indexOf(char1);
+                int index2 = pfOrdre.indexOf(char2);
+
+                // On inverse l'ordre des deux mots
+                if (index1 > index2) {
+                    mots.set(j, mot2);
+                    mots.set(j + 1, mot1);
+                }
+            }
+        }
+        return mots;
+    }
+
+    /**
+     * Divise une chaîne de caractères en mots individuels.
+     *
+     * @param pfPhrase La chaîne de caractères à diviser en mots.
+     * @return Une liste contenant les mots individuels extraits de la phrase.
+     */
+    public static List<String> diviserMots(String pfPhrase) {
+        List<String> mots = new ArrayList<>();
+        StringBuilder motActuelle = new StringBuilder();
+
+        // Reconstruction des mots de la phrase
+        for (int i = 0; i < pfPhrase.length(); i++) {
+            char nextChar = pfPhrase.charAt(i);
+            if (Character.isLetter(nextChar)) {
+                motActuelle.append(nextChar);
+            } else if (motActuelle.length() > 0) {
+                mots.add(motActuelle.toString());
+                motActuelle.setLength(0);
+            }
+        }
+
+        // Ajout du dernier mot s'il n'a pas été ajouté
+        if (motActuelle.length() > 0) {
+            mots.add(motActuelle.toString());
+        }
+        return mots;
+    }
+}
